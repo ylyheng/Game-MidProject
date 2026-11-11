@@ -18,10 +18,7 @@ public class FirstPersonCamera : MonoBehaviour
 
     [Header("Zoom (FOV)")]
     [SerializeField] private float defaultFov = 70f;
-    [SerializeField] private float minFov = 30f;
-    [SerializeField] private float maxFov = 90f;
-    [SerializeField] private float zoomSpeed = 20f;
-    [SerializeField] private float zoomSharpness = 8f;
+
 
     [Header("Head Bob (walking up/down)")]
     [SerializeField] private bool enableBob = true;
@@ -31,9 +28,23 @@ public class FirstPersonCamera : MonoBehaviour
     [SerializeField] private float bobFullSpeed = 12f;     // speed at which bob is at full strength
     [SerializeField] private float bobReturnSharpness = 10f; // how fast it settles when you stop
 
+    [Header("Sit")]
+    [SerializeField] private KeyCode sitKey = KeyCode.LeftControl;  // key that lowers the camera
+    [SerializeField] private bool toggleSit = false;                // false = hold to sit, true = press to toggle
+    [SerializeField] private float sitEyeHeight = 1.0f;             // eye height above player pivot when seated
+    [SerializeField] private float sitTransitionSharpness = 10f;    // how fast the camera drops / rises
+    [SerializeField] private float sitBobMultiplier = 0.25f;        // head-bob strength while seated (0 = none)
+
     /// <summary>Fired each time a footstep lands (bottom of the head bob).</summary>
     public event System.Action OnStep;
 
+    /// <summary>Fired whenever the sit state changes. Argument is true when sitting.</summary>
+    public event System.Action<bool> OnSitChanged;
+
+    /// <summary>True while the player is seated.</summary>
+    public bool IsSitting => isSitting;
+
+    // --- private state (declare each field exactly ONCE) ---
     private int lastStepIndex = -1;
     private Rigidbody targetRb;
     private float bobTimer;
@@ -45,6 +56,9 @@ public class FirstPersonCamera : MonoBehaviour
     private float smoothPitch;
     private float targetFov;
     private Camera cam;
+
+    private bool isSitting;
+    private float sitBlend;   // 0 = standing, 1 = fully seated
 
     void Awake()
     {
@@ -71,6 +85,19 @@ public class FirstPersonCamera : MonoBehaviour
         if (Cursor.lockState != CursorLockMode.Locked && Input.GetMouseButtonDown(0)) LockCursor(true);
         if (Cursor.lockState != CursorLockMode.Locked) return;
 
+        // --- Sit input (fires event only on change) ---
+        bool wasSitting = isSitting;
+        if (toggleSit)
+        {
+            if (Input.GetKeyDown(sitKey)) isSitting = !isSitting;
+        }
+        else
+        {
+            isSitting = Input.GetKey(sitKey);
+        }
+        if (isSitting != wasSitting)
+            OnSitChanged?.Invoke(isSitting);
+
         // Mouse look (mouse delta is already per-frame, so no Time.deltaTime here)
         float mx = Input.GetAxis("Mouse X") * sensitivity;
         float my = Input.GetAxis("Mouse Y") * sensitivity;
@@ -79,10 +106,6 @@ public class FirstPersonCamera : MonoBehaviour
         pitch += invertY ? my : -my;
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
-        // Scroll zoom changes field of view
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (Mathf.Abs(scroll) > 0.0001f)
-            targetFov = Mathf.Clamp(targetFov - scroll * zoomSpeed * 10f, minFov, maxFov);
     }
 
     void LateUpdate()
@@ -101,6 +124,16 @@ public class FirstPersonCamera : MonoBehaviour
             smoothYaw = yaw;
             smoothPitch = pitch;
         }
+
+        // Smooth sit blend (framerate-independent exponential smoothing)
+        float targetBlend = isSitting ? 1f : 0f;
+        sitBlend = Mathf.Lerp(sitBlend, targetBlend,
+                              1f - Mathf.Exp(-sitTransitionSharpness * Time.deltaTime));
+
+        // Blend eye height and head-bob strength between standing and sitting
+        float currentEyeHeight = Mathf.Lerp(eyeOffset.y, sitEyeHeight, sitBlend);
+        Vector3 currentEyeOffset = new Vector3(eyeOffset.x, currentEyeHeight, eyeOffset.z);
+        float bobStrength = Mathf.Lerp(1f, sitBobMultiplier, sitBlend);
 
         // Walking bob, driven by horizontal speed
         Vector3 desiredBob = Vector3.zero;
@@ -124,24 +157,20 @@ public class FirstPersonCamera : MonoBehaviour
                 desiredBob = new Vector3(
                     Mathf.Cos(bobTimer * 0.5f) * bobHorizontal,   // sway left/right every other step
                     Mathf.Sin(bobTimer) * bobVertical,            // up/down every step
-                    0f) * speedFactor;
+                    0f) * speedFactor * bobStrength;
             }
         }
         // Ease toward the bob (and back to zero when you stop)
         bobOffset = Vector3.Lerp(bobOffset, desiredBob, bobReturnSharpness * Time.deltaTime);
 
-        // Camera sits at the player's eyes, plus bob (rotated into camera yaw space)
+        // Camera sits at the player's eyes (sitting height blended in), plus bob
         Quaternion yawRot = Quaternion.Euler(0f, smoothYaw, 0f);
-        transform.position = target.position + eyeOffset + yawRot * bobOffset;
+        transform.position = target.position + currentEyeOffset + yawRot * bobOffset;
         transform.rotation = Quaternion.Euler(smoothPitch, smoothYaw, 0f);
 
         // Turn the player body left/right so WASD moves where you look
         if (rotatePlayerWithYaw)
             target.rotation = Quaternion.Euler(0f, smoothYaw, 0f);
-
-        // Smooth FOV zoom
-        if (cam != null)
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFov, zoomSharpness * Time.deltaTime);
     }
 
     private void LockCursor(bool locked)
