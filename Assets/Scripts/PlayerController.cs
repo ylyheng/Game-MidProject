@@ -8,12 +8,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float walkSpeed = 6f;
     [SerializeField] private float runSpeed = 11f;
     [SerializeField] private float acceleration = 30f;   // how fast we reach target speed
-
-    
+    [SerializeField] private float sitSpeedMultiplier = 0.4f;   // speed scale while sitting (0.4 = 40%)
 
     [Header("Lab wiring (drag your objects here)")]
     [SerializeField] private GameObject orbPrefab;      // TODO 5: used to spawn a bonus orb
     [SerializeField] private Transform cameraTransform; // drag Main Camera here
+    [SerializeField] private FirstPersonCamera fpCamera; // optional — auto-found from cameraTransform
 
     [SerializeField] private GameManager gameManager;
 
@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private float v;
 
     private bool isRunning;
+    private bool isSitting;
     private float currentSpeed;
 
     void Awake()
@@ -31,8 +32,26 @@ public class PlayerController : MonoBehaviour
         // Fallback if you forget to drag the camera in
         if (cameraTransform == null && Camera.main != null)
             cameraTransform = Camera.main.transform;
+
+        // Fallback for the sit source
+        if (fpCamera == null && cameraTransform != null)
+            fpCamera = cameraTransform.GetComponent<FirstPersonCamera>();
     }
 
+    void OnEnable()
+    {
+        if (fpCamera != null) fpCamera.OnSitChanged += HandleSitChanged;
+    }
+
+    void OnDisable()
+    {
+        if (fpCamera != null) fpCamera.OnSitChanged -= HandleSitChanged;
+    }
+
+    private void HandleSitChanged(bool sitting)
+    {
+        isSitting = sitting;
+    }
 
     void Update()
     {
@@ -45,7 +64,6 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         // Camera-relative directions, flattened onto the ground plane
-        // (so looking up/down doesn't make you walk into the floor or fly)
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
         forward.y = 0f;
@@ -55,40 +73,22 @@ public class PlayerController : MonoBehaviour
 
         Vector3 moveDir = (right * h + forward * v).normalized;
 
-        float targetSpeed = isRunning ? runSpeed : walkSpeed;
+        // Running is disabled while sitting; otherwise pick walk/run and scale by sit
+        bool canRun = isRunning && !isSitting;
+        float baseSpeed = canRun ? runSpeed : walkSpeed;
+        float targetSpeed = baseSpeed * (isSitting ? sitSpeedMultiplier : 1f);
 
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, acceleration * Time.fixedDeltaTime);
 
         // Preserve current vertical velocity (gravity / falling / jumping)
         Vector3 vel = moveDir * currentSpeed;
         vel.y = rb.linearVelocity.y;
-        
 
-        // Hand the velocity to the physics engine — it resolves wall collisions for us
         rb.linearVelocity = vel;
     }
-
 
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log("hit the wall: " + collision.gameObject.name);
     }
-
-    // void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.CompareTag("Orb"))
-    //     {
-    //         if (gameManager)
-    //         {
-    //             gameManager.Collect();
-    //         }
-    //         Orb orb = other.GetComponent<Orb>();
-
-    //         if (orb != null)
-    //         {
-    //             orb.DestroyOrb();
-    //         }
-    //     }
-    // }
-
 }
