@@ -24,11 +24,17 @@ public class PickupItem : Interactable
     {
         Debug.Log("Picked up: " + itemName + " x" + amount);
 
-        // FUTURE: interactor.GetComponent<Inventory>()?.Add(itemName, amount);
+        Inventory inventory = interactor.GetComponent<Inventory>();
+        if (inventory == null) inventory = FindFirstObjectByType<Inventory>();
+        if (inventory != null && !inventory.Add(itemName, amount))
+            return;
 
-        // Prefabs can't hold references to scene objects, so find the GameManager here
-        GameManager gm = FindFirstObjectByType<GameManager>();
-        if (gm != null) gm.Collect();
+        if(itemName == "Orb")
+        {
+            // Prefabs can't hold references to scene objects, so find the GameManager here
+            GameManager gm = FindFirstObjectByType<GameManager>();
+            if (gm != null) gm.Collect();
+        }
 
         onPickedUp?.Invoke();
         Destroy(gameObject);

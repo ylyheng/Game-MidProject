@@ -45,25 +45,25 @@ public class GameManager : MonoBehaviour
         // Immediate-mode UI: runs several times per frame, so keep it cheap.
         GUI.Label(new Rect(12, 10, 400, 30), $"Orbs collected: {collected} / {totalOrbs}", new GUIStyle(GUI.skin.label) { fontSize = 20 });
 
-        if (collected >= totalOrbs)
-            {
-                // Build a big, centered style
-                GUIStyle winStyle = new GUIStyle(GUI.skin.label);
-                winStyle.fontSize = 80;
-                winStyle.alignment = TextAnchor.MiddleCenter;
-                winStyle.fontStyle = FontStyle.Bold;
-                winStyle.normal.textColor = Color.yellow;
+        // if (collected >= totalOrbs)
+        //     {
+        //         // Build a big, centered style
+        //         GUIStyle winStyle = new GUIStyle(GUI.skin.label);
+        //         winStyle.fontSize = 80;
+        //         winStyle.alignment = TextAnchor.MiddleCenter;
+        //         winStyle.fontStyle = FontStyle.Bold;
+        //         winStyle.normal.textColor = Color.yellow;
 
-                // Optional outline so it reads on any background
-                winStyle.normal.textColor = Color.yellow;
+        //         // Optional outline so it reads on any background
+        //         winStyle.normal.textColor = Color.yellow;
 
-                // Center a box on screen
-                float w = Screen.width;
-                float h = Screen.height;
-                Rect winRect = new Rect(0, h * 0.35f, w, 120);   // full width, 35% down, 120 tall
+        //         // Center a box on screen
+        //         float w = Screen.width;
+        //         float h = Screen.height;
+        //         Rect winRect = new Rect(0, h * 0.35f, w, 120);   // full width, 35% down, 120 tall
 
-                GUI.Label(winRect, "YOU WIN!", winStyle);
-            }
+        //         GUI.Label(winRect, "YOU WIN!", winStyle);
+        //     }
         // TODO 7: when collected >= totalOrbs, draw a large centered "YOU WIN!" label.
     }
 }
