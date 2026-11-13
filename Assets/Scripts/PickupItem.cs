@@ -12,6 +12,12 @@ public class PickupItem : Interactable
     [SerializeField] private string itemName = "Orb";
     [SerializeField] private int amount = 1;
 
+    [Header("Audio")]
+    [Tooltip("Sound played when the item is successfully picked up.")]
+    [SerializeField] private AudioClip pickupSound;
+    [Range(0f, 1f)]
+    [SerializeField] private float pickupVolume = 1f;
+
     [Header("Events")]
     [SerializeField] private UnityEvent onPickedUp;   // e.g. hook GameManager.Collect here
 
@@ -29,7 +35,11 @@ public class PickupItem : Interactable
         if (inventory != null && !inventory.Add(itemName, amount))
             return;
 
-        if(itemName == "Orb")
+        // Only play the sound if the pickup actually succeeded
+        if (pickupSound != null)
+            AudioSource.PlayClipAtPoint(pickupSound, transform.position, pickupVolume);
+
+        if (itemName == "Orb")
         {
             // Prefabs can't hold references to scene objects, so find the GameManager here
             GameManager gm = FindFirstObjectByType<GameManager>();

@@ -14,6 +14,12 @@ public class ItemPocket : Interactable
     [Tooltip("Optional: keep the spawned artifact in the same parent hierarchy.")]
     [SerializeField] private bool keepSameParent = false;
 
+    [Header("Audio")]
+    [Tooltip("Sound played when the item is successfully inserted.")]
+    [SerializeField] private AudioClip insertSound;
+    [Range(0f, 1f)]
+    [SerializeField] private float insertVolume = 1f;
+
     [Header("Events")]
     [SerializeField] private UnityEvent OnInsertItem;
 
@@ -58,6 +64,10 @@ public class ItemPocket : Interactable
         {
             Debug.LogWarning("[ItemPocket] No artifactPrefab assigned!");
         }
+
+        // Only play the sound after the item was actually accepted & placed
+        if (insertSound != null)
+            AudioSource.PlayClipAtPoint(insertSound, transform.position, insertVolume);
 
         OnInsertItem?.Invoke();
         Destroy(gameObject);

@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -406657455075641557, guid: 44c684e3fc6532e4e81feb3a61817742, type: 3}
+      propertyPath: pickupSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 246959b38a060fa4fa2669d0523c61f5, type: 3}
     - target: {fileID: 6958253866374508267, guid: 44c684e3fc6532e4e81feb3a61817742, type: 3}
       propertyPath: m_Name
       value: Sphere Variant

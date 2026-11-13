@@ -128,6 +128,8 @@ MonoBehaviour:
   prompt: Interact
   itemName: Cube
   amount: 1
+  pickupSound: {fileID: 8300000, guid: 246959b38a060fa4fa2669d0523c61f5, type: 3}
+  pickupVolume: 1
   onPickedUp:
     m_PersistentCalls:
       m_Calls: []
