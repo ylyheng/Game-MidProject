@@ -43,6 +43,7 @@ public class FirstPersonCamera : MonoBehaviour
 
     /// <summary>True while the player is seated.</summary>
     public bool IsSitting => isSitting;
+    public Vector3 CurrentEyeOffset { get; private set; }
 
     // --- private state (declare each field exactly ONCE) ---
     private int lastStepIndex = -1;
@@ -133,6 +134,7 @@ public class FirstPersonCamera : MonoBehaviour
         // Blend eye height and head-bob strength between standing and sitting
         float currentEyeHeight = Mathf.Lerp(eyeOffset.y, sitEyeHeight, sitBlend);
         Vector3 currentEyeOffset = new Vector3(eyeOffset.x, currentEyeHeight, eyeOffset.z);
+        CurrentEyeOffset = currentEyeOffset;
         float bobStrength = Mathf.Lerp(1f, sitBobMultiplier, sitBlend);
 
         // Walking bob, driven by horizontal speed
@@ -171,6 +173,9 @@ public class FirstPersonCamera : MonoBehaviour
         // Turn the player body left/right so WASD moves where you look
         if (rotatePlayerWithYaw)
             target.rotation = Quaternion.Euler(0f, smoothYaw, 0f);
+
+
+        
     }
 
     private void LockCursor(bool locked)

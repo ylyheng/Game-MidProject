@@ -10,6 +10,7 @@ public class Lighter : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform cameraTransform;   // drag Main Camera here
+    [SerializeField] private Transform playerTransform;
 
     [Header("Position")]
     [Tooltip("Offset in camera space: x = right, y = up, z = forward. Slightly right/down feels like a held light.")]
@@ -43,10 +44,10 @@ public class Lighter : MonoBehaviour
     // LateUpdate runs after FirstPersonCamera has moved/rotated the camera this frame
     void LateUpdate()
     {
-        if (cameraTransform == null) return;
+        if (cameraTransform == null || playerTransform == null) return;
 
         // Position: stick to the camera (with the offset in camera space)
-        transform.position = cameraTransform.TransformPoint(localOffset);
+        transform.position = playerTransform.TransformPoint(localOffset);
 
         // Rotation: face where the camera faces
         if (rotationSharpness <= 0f)

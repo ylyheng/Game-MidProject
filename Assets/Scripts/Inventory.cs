@@ -20,6 +20,12 @@ public class Inventory : MonoBehaviour
     /// <summary>Fired whenever anything is added or removed.</summary>
     public event Action OnChanged;
 
+    /// <summary>Fired after an item is added (name, amount added).</summary>
+    public event Action<string, int> OnItemAdded;
+
+    /// <summary>Fired after an item is removed (name, amount removed).</summary>
+    public event Action<string, int> OnItemRemoved;
+
     public IReadOnlyDictionary<string, int> Items => items;
 
     public bool Add(string itemName, int amount = 1)
@@ -35,6 +41,7 @@ public class Inventory : MonoBehaviour
 
         items[itemName] = GetCount(itemName) + amount;
         Changed();
+        OnItemAdded?.Invoke(itemName, amount);
         return true;
     }
 
@@ -45,6 +52,7 @@ public class Inventory : MonoBehaviour
         items[itemName] -= amount;
         if (items[itemName] <= 0) items.Remove(itemName);
         Changed();
+        OnItemRemoved?.Invoke(itemName, amount);
         return true;
     }
 
