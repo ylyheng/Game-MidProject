@@ -56,10 +56,13 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
+   
+
     public bool Has(string itemName, int amount = 1)
     {
         return GetCount(itemName) >= amount;
     }
+
 
     public int GetCount(string itemName)
     {

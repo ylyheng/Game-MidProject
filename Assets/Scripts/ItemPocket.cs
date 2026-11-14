@@ -59,6 +59,23 @@ public class ItemPocket : Interactable
             }
 
             MakeDecorative(artifact);
+
+            Debug.Log(itemName + "is Inserted");
+
+            GameManager manager = GameManager.Instance;
+            if(manager.insertedPockets == 0)
+            {
+                GameManager.Instance.PocketInserted(GameManager.PocketLevel.LevelOne);
+            }
+            else if(manager.insertedPockets == 1)
+            {
+                GameManager.Instance.PocketInserted(GameManager.PocketLevel.LevelTwo);
+            }
+            else if(manager.insertedPockets >= 2)
+            {
+                GameManager.Instance.PocketInserted(GameManager.PocketLevel.LevelThree);
+            }
+            
         }
         else
         {

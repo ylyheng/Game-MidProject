@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sphere Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7758587693205948350, guid: 44c684e3fc6532e4e81feb3a61817742, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c305b4b345f309044a96a104b86ca993, type: 2}
     - target: {fileID: 7823959446194426204, guid: 44c684e3fc6532e4e81feb3a61817742, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.2

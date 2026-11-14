@@ -9,6 +9,7 @@ using UnityEngine;
 /// </summary>
 public class HoldObjectRightHand : MonoBehaviour
 {
+    
     [Serializable]
     public class HeldItem
     {
@@ -23,6 +24,7 @@ public class HoldObjectRightHand : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Inventory inventory;   // drag the Player here (auto-finds if empty)
+    [SerializeField] AutoReplayAudio soundManager;
 
     [Header("Items you can hold")]
     [SerializeField] private HeldItem[] heldItems;
@@ -81,6 +83,19 @@ public class HoldObjectRightHand : MonoBehaviour
 
         Release();
 
+        // check the current level and whether player hold atifact than enable chassing
+        GameManager manager = GameManager.Instance;
+        if (manager != null && manager.insertedPockets >= 1)
+        {
+            if (itemName == "Orb" || itemName == "Cube" || itemName == "Stone")
+            {
+                DollChaser.SetAllChasing(true);
+
+                if (soundManager)soundManager.Play("chassing");
+                
+            }
+        }
+
         currentObject = Instantiate(entry.prefab, transform);
         currentObject.transform.localScale = entry.scale;
         currentObject.transform.localPosition = entry.positionOffset;
@@ -95,6 +110,9 @@ public class HoldObjectRightHand : MonoBehaviour
         if (currentObject != null) Destroy(currentObject);
         currentObject = null;
         currentItemName = null;
+
+        DollChaser.SetAllChasing(false);
+        if (soundManager)soundManager.Play("default");
     }
 
     private HeldItem FindEntry(string itemName)
