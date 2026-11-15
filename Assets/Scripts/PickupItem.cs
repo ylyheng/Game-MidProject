@@ -39,13 +39,6 @@ public class PickupItem : Interactable
         if (pickupSound != null)
             AudioSource.PlayClipAtPoint(pickupSound, transform.position, pickupVolume);
 
-        if (itemName == "Orb")
-        {
-            // Prefabs can't hold references to scene objects, so find the GameManager here
-            GameManager gm = FindFirstObjectByType<GameManager>();
-            if (gm != null) gm.Collect();
-        }
-
         onPickedUp?.Invoke();
         Destroy(gameObject);
     }

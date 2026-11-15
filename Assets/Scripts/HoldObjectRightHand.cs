@@ -25,6 +25,7 @@ public class HoldObjectRightHand : MonoBehaviour
     [Header("References")]
     [SerializeField] private Inventory inventory;   // drag the Player here (auto-finds if empty)
     [SerializeField] AutoReplayAudio soundManager;
+    [SerializeField] EnemySpawner enemySpawner;
 
     [Header("Items you can hold")]
     [SerializeField] private HeldItem[] heldItems;
@@ -89,6 +90,18 @@ public class HoldObjectRightHand : MonoBehaviour
         {
             if (itemName == "Orb" || itemName == "Cube" || itemName == "Stone")
             {
+                if(enemySpawner != null)
+                {
+                    // count from 0
+                    if(manager.insertedPockets >= 2)
+                        {
+                            enemySpawner.SpawnForLevel(3);
+                        }
+                        else enemySpawner.SpawnForLevel(2);
+                }
+
+                
+
                 DollChaser.SetAllChasing(true);
 
                 if (soundManager)soundManager.Play("chassing");
