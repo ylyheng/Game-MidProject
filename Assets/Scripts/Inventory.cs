@@ -15,7 +15,7 @@ public class Inventory : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool logChanges = true;
 
-    private readonly Dictionary<string, int> items = new Dictionary<string, int>();
+    public readonly Dictionary<string, int> items = new Dictionary<string, int>();
 
     /// <summary>Fired whenever anything is added or removed.</summary>
     public event Action OnChanged;

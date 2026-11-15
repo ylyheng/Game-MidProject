@@ -32,8 +32,11 @@ public class PickupItem : Interactable
 
         Inventory inventory = interactor.GetComponent<Inventory>();
         if (inventory == null) inventory = FindFirstObjectByType<Inventory>();
-        if (inventory != null && !inventory.Add(itemName, amount))
-            return;
+
+        // currently not allowing player to stock 2 obj at the same time
+        if (inventory == null || inventory.items.Count > 0) return;
+
+        if(!inventory.Add(itemName, amount)) return;
 
         // Only play the sound if the pickup actually succeeded
         if (pickupSound != null)
