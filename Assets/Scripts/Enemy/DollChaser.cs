@@ -86,6 +86,19 @@ public class DollChaser : MonoBehaviour
 
     void Awake()
     {
+
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+                player = playerObj.transform;
+            else
+                Debug.LogError("[Doll] No GameObject with tag 'Player' found!");
+        }
+
+        if (playerCamera == null)
+            playerCamera = Camera.main;
+
         animator = GetComponentInChildren<Animator>();
         renderers = GetComponentsInChildren<Renderer>();
 
