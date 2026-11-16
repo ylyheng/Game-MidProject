@@ -91,8 +91,8 @@ To complete the game, players must:
 - Dolls chase the player when they are not being watched.
 - Collecting artifacts activates the dolls.
 - Additional dolls spawn as the player progresses:
-  - Level 1: 0 doll.
-  - Level 2: 1 dolls.
+  - Level 1: 0 dolls.
+  - Level 2: 1 doll.
   - Level 3: 3 dolls.
 
 ### 🗝️ Artifact and Pocket Rules
@@ -344,7 +344,7 @@ Game-MidProject/
 
 ### AI Assistance
 
-- AI tools were used to assist in writing and organizing this README documentation.
+- AI tools were used to assist in writing and organizing this README documentation and catch bug during development.
 
 ---
 
