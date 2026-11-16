@@ -280,7 +280,7 @@ public class DollChaser : MonoBehaviour
             Invoke(nameof(ReloadScene), reloadDelay);
     }
 
-    private void ReloadScene()
+    public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

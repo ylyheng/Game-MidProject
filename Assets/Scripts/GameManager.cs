@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    
 
     [Header("State")]
     [SerializeField] private int totalPockets = 3;
+
+    [SerializeField] private KeyCode interactKey = KeyCode.R;
     
     public int insertedPockets = 0;
     public event Action OnGameCompleted;
@@ -25,6 +29,13 @@ public class GameManager : MonoBehaviour
     // 2. Single event that passes WHICH level was inserted
     public event Action<PocketLevel> OnPocketInserted;
 
+    void Update()
+    {
+        if (isCompleted && Input.GetKeyDown(interactKey))
+        {
+            ReloadScene();
+        }
+    }
 
     void Awake()
     {
@@ -52,6 +63,12 @@ public class GameManager : MonoBehaviour
             isCompleted = true;
             OnGameCompleted?.Invoke();
         }
+    }
+
+    public void ReloadScene()
+    {
+        Debug.Log("reloaded scene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
 }
