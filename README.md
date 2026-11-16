@@ -352,5 +352,3 @@ Game-MidProject/
 This project is developed for **educational purposes only** as part of the Fundamentals of Game Development course at the Cambodia Academy of Digital Technology (CADT).
 
 ---
-
-\<p align="center">   \<b>Silent Soul\</b>\<br>   Can you survive when the dolls are watching?   \<br>\<br>   \<i>Group 3 – Fundamentals of Game Development\</i> \</p>
