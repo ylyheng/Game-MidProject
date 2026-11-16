@@ -10,6 +10,7 @@ Department of Computer Sciences
 
 **Course:** Fundamentals of Game Development
 **Lecturer:** Va Hongly
+**TA:** Lim Chanvina
 
 ---
 
@@ -18,7 +19,7 @@ Department of Computer Sciences
 | Item                 | Details                             |
 | -------------------- | ----------------------------------- |
 | Project Name         | Silent Soul                         |
-| Project Type         | First-Person Horror Obstacle Course |
+| Project Type         | First-Person Horror Obstacle        |
 | Game Engine          | Unity 6                             |
 | Unity Version        | `6000.3.8f1`                        |
 | Programming Language | C#                                  |
@@ -47,7 +48,7 @@ Department of Computer Sciences
 
 ## 🎮 Game Overview
 
-**Silent Soul** is a first-person horror obstacle course game where players explore a dark and terrifying environment using only a lighter to guide their way.
+**Silent Soul** is a first-person horror obstacle game where players explore a dark and terrifying environment using only a lighter to guide their way.
 
 The main objective is to discover three hidden artifacts and return each one to its corresponding pocket (altar).
 
@@ -90,8 +91,8 @@ To complete the game, players must:
 - Dolls chase the player when they are not being watched.
 - Collecting artifacts activates the dolls.
 - Additional dolls spawn as the player progresses:
-  - Level 1: 1 doll.
-  - Level 2: 2 dolls.
+  - Level 1: 0 doll.
+  - Level 2: 1 dolls.
   - Level 3: 3 dolls.
 
 ### 🗝️ Artifact and Pocket Rules
