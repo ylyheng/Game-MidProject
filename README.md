@@ -1,108 +1,356 @@
-Silent Soul
+# 👻 Silent Soul
 
-Group 3 Mid-Term Group Project (Playable Obstacle Course) Cambodia Academy of Digital Technology Institute of Digital Technology Department of Computer Sciences Course: Fundamentals of Game Development Lecturer: Va Hongly
+### First-Person Horror Obstacle Course Game
 
-Quick Links
-Item	Link
-Git repository	https://github.com/ylyheng/Game-MidProject.git'
+**Group 3 – Mid-Term Group Project**
 
-All links are public (no permission request needed) and will not expire.
+Cambodia Academy of Digital Technology (CADT)
+Institute of Digital Technology
+Department of Computer Sciences
 
-1. Game Overview
+**Course:** Fundamentals of Game Development
+**Lecturer:** Va Hongly
 
-Silent Soul is a first-person horror obstacle game. The player explores a dark, creepy map holding only a lighter, searching for three artifacts. Each artifact must be carried back and placed into its matching pocket (altar). But carrying an artifact wakes up the haunted dolls, which chase you whenever you are not looking at them.
+---
 
-2. Objective
+## 📌 Project Information
 
-Find all 3 artifacts, pick each one up, and insert each into its pocket. When all 3 pockets are filled, the game is completed and the end credits play.
+| Item                 | Details                             |
+| -------------------- | ----------------------------------- |
+| Project Name         | Silent Soul                         |
+| Project Type         | First-Person Horror Obstacle Course |
+| Game Engine          | Unity 6                             |
+| Unity Version        | `6000.3.8f1`                        |
+| Programming Language | C#                                  |
+| Platform             | Windows                             |
+| Main Scene           | `Assets/Scenes/Main.unity`          |
 
-3. Rules
-Win: Insert all 3 artifacts into their pockets (3/3). The end credits then roll.
-Lose: A doll catches you (gets within about 1.2 m).
-Restart: After you are caught, the scene reloads automatically after about 1.5 seconds, so you start over.
-Dolls ("weeping angel" style):
-A doll freezes while you are looking at it.
-It chases you while you are not looking.
-Picking up artifacts activates the dolls. More dolls spawn at later stages (2 dolls, then 3 dolls).
-Pockets only accept the item they require. The prompt reads "Required [item]".
-Your lighter lights the dark. Use it to find your way.
-4. Controls
-Input	Action
-W / A / S / D	Move (relative to where you look)
-Mouse	Look around
-Left Shift	Run
-Left Ctrl	Sit / crouch (slower, cannot run)
-F	Toggle lighter
-E	Interact: pick up an item or insert it into a pocket
-Esc	Unlock the mouse cursor
-Left click (in the game window)	Lock the cursor again
-5. Game Features
-Game design: A dark map with three artifacts to find, matching pockets, and chasing dolls as the main obstacle. The challenge grows as dolls spawn in numbers (level 2 and level 3).
-Player controls: Rigidbody-based first-person movement with acceleration, walk/run/sit speeds, mouse look, lighter, and an interaction raycast.
-Physics: Rigidbody player movement, colliders (walls and floor), trigger and collision events, and NavMeshAgent pathfinding for the dolls.
-Game logic: GameManager counts the inserted pockets (win condition). A doll catching the player triggers the fail condition and a scene reload (restart).
-UI / feedback: Interaction prompts ("Pick up", "Required"), an inventory UI, sound effects (footsteps, doll movement, kill sound, insert sound, soundtrack), a flickering-light atmosphere and scrolling end credits.
-6. Technical Details
-Unity version: 6000.3.8f1 (Unity 6)
-Language: C#
-Platform tested: Windows
-Main scene: Assets/Scenes/Main.unity
-Key scripts (Assets/Scripts):
-Script	Purpose
-PlayerController.cs	Rigidbody movement: walk, run, sit
-CameraFollow.cs (FirstPersonCamera)	Mouse look, sit camera, cursor lock
-PlayerInteractor.cs / Interactable.cs	Look-at interaction with the E key
-PickupItem.cs / Inventory.cs / InventoryUi.cs	Picking up items and the inventory
-ItemPocket.cs	Insert artifacts into pockets
-HoldObjectRightHand.cs / HandMovement.cs	Held item in hand; activates dolls
-Lighter.cs	Lighter toggle (F)
-GameManager.cs	Win condition (3 pockets) and game events
-Enemy/DollChaser.cs	Doll AI: freezes when seen, chases when unseen, kills and reloads
-Enemy/EnemySpawner.cs	Spawns dolls per level
-UI/EndCreditController.cs	End credits after winning
-ENV/FlickeringLight.cs, FootStepAudio.cs, Soundrack.cs	Atmosphere and audio
-7. Setup & Play Instructions
-Option A Run the playable build (no Unity needed)
-Download the ZIP: [BUILD LINK]
-Extract the entire ZIP (do not run the .exe from inside the ZIP).
-Run [SilentSoul].exe. Keep the _Data folder and the other files next to it.
-Play using the controls above.
-Option B Open in the Unity Editor
-Install Unity 6000.3.8f1 via Unity Hub.
-Clone the repository:
-bash
+**Git Repository:** [Game-MidProject](https://github.com/ylyheng/Game-MidProject.git)
+
+---
+
+## 📖 Table of Contents
+
+1. [Game Overview](#-game-overview)
+2. [Game Objective](#-game-objective)
+3. [Game Rules](#-game-rules)
+4. [Controls](#-controls)
+5. [Game Features](#-game-features)
+6. [Technical Implementation](#-technical-implementation)
+7. [Installation and Setup](#-installation-and-setup)
+8. [Project Structure](#-project-structure)
+9. [Team Members and Contributions](#-team-members-and-contributions)
+10. [Assets and Credits](#-assets-and-credits)
+11. [License](#-license)
+
+---
+
+## 🎮 Game Overview
+
+**Silent Soul** is a first-person horror obstacle course game where players explore a dark and terrifying environment using only a lighter to guide their way.
+
+The main objective is to discover three hidden artifacts and return each one to its corresponding pocket (altar).
+
+However, collecting an artifact awakens haunted dolls that begin hunting the player. These dolls follow a unique **Weeping Angel-style mechanic**: they freeze when the player looks directly at them but move and chase the player whenever they are not being watched.
+
+Players must carefully explore the environment, avoid the dolls, collect all three artifacts, and survive to complete the game.
+
+---
+
+## 🎯 Game Objective
+
+To complete the game, players must:
+
+1. Explore the dark environment using a lighter.
+2. Find and collect all three hidden artifacts.
+3. Avoid the haunted dolls while carrying artifacts.
+4. Return each artifact to its matching pocket (altar).
+5. Insert all three artifacts to unlock the ending.
+
+**Victory Condition:** Successfully fill all three pockets (3/3). The end credits will automatically play.
+
+---
+
+## 📜 Game Rules
+
+### 🏆 Winning
+
+- Collect all three artifacts.
+- Insert each artifact into its matching pocket.
+- Once all three pockets are filled, the game is completed and the end credits begin.
+
+### 💀 Losing
+
+- A doll catches the player when it gets within approximately 1.2 meters.
+- The game automatically reloads the scene approximately 1.5 seconds after the player is caught.
+
+### 👹 Doll Behavior
+
+- Dolls freeze when the player is looking directly at them.
+- Dolls chase the player when they are not being watched.
+- Collecting artifacts activates the dolls.
+- Additional dolls spawn as the player progresses:
+  - Level 1: 1 doll.
+  - Level 2: 2 dolls.
+  - Level 3: 3 dolls.
+
+### 🗝️ Artifact and Pocket Rules
+
+- Each pocket only accepts its corresponding artifact.
+- Attempting to insert the wrong artifact displays a message such as `Required [Item]`.
+- All three pockets must be filled to win.
+
+### 🔦 Lighter
+
+- The player uses a lighter to illuminate the dark environment.
+- The lighter can be toggled on or off whenever needed.
+
+---
+
+## 🎮 Controls
+
+| Key / Input  | Action                               |
+| ------------ | ------------------------------------ |
+| `W`          | Move Forward                         |
+| `A`          | Move Left                            |
+| `S`          | Move Backward                        |
+| `D`          | Move Right                           |
+| `Mouse`      | Look Around                          |
+| `Left Shift` | Run                                  |
+| `Left Ctrl`  | Sit / Crouch                         |
+| `F`          | Toggle Lighter                       |
+| `E`          | Interact / Pick Up / Insert Artifact |
+| `Esc`        | Unlock Mouse Cursor                  |
+| `Left Click` | Lock Mouse Cursor Again              |
+
+**Note:** Sitting makes the player move more slowly and prevents running.
+
+---
+
+## ✨ Game Features
+
+### 🏚️ Environment and Level Design
+
+- Dark and creepy horror environment.
+- Three hidden artifacts and their matching pockets.
+- Atmospheric lighting and flickering lights.
+- Exploration-based obstacle gameplay.
+
+### 🏃 Player Mechanics
+
+- Rigidbody-based first-person movement.
+- Walking, running, and crouching.
+- Mouse-controlled camera movement.
+- Toggleable lighter.
+- Raycast-based interaction system.
+- Item pickup and inventory system.
+
+### 👹 Enemy AI
+
+- Weeping Angel-style doll behavior.
+- Dolls freeze when observed.
+- Dolls chase the player when not observed.
+- NavMeshAgent-based pathfinding.
+- Increasing enemy difficulty through multiple spawning stages.
+
+### 🎒 Inventory and Interaction
+
+- Pick up and carry artifacts.
+- Display inventory information.
+- Insert artifacts into matching pockets.
+- Show interaction prompts and required-item messages.
+
+### 🔊 Audio and Visual Effects
+
+- Footstep sound effects.
+- Doll movement sounds.
+- Player death sound.
+- Artifact insertion sound.
+- Background soundtrack.
+- Flickering-light effects.
+- Scrolling end credits.
+
+### 🏁 Game Progression
+
+- GameManager tracks inserted artifacts.
+- EnemySpawner controls enemy spawning.
+- Automatic restart after player death.
+- End credits after successful completion.
+
+---
+
+## ⚙️ Technical Implementation
+
+The project was developed using **Unity 6 (6000.3.8f1)** and **C#**.
+
+### Technologies and Systems
+
+| Technology     | Purpose                          |
+| -------------- | -------------------------------- |
+| Unity 6        | Game development engine          |
+| C#             | Gameplay programming             |
+| Rigidbody      | Player physics and movement      |
+| Collider       | Collision detection              |
+| Trigger Events | Interaction and detection        |
+| NavMeshAgent   | Enemy navigation and pathfinding |
+| Raycasting     | Object interaction               |
+| TextMesh Pro   | UI text rendering                |
+
+### Main Scripts
+
+The following scripts implement the main gameplay systems.
+
+| Script                      | Responsibility                                    |
+| --------------------------- | ------------------------------------------------- |
+| `PlayerController.cs`       | Rigidbody movement: walking, running, and sitting |
+| `CameraFollow.cs`           | First-person camera and mouse look                |
+| `PlayerInteractor.cs`       | Detects interactable objects                      |
+| `Interactable.cs`           | Base interaction behavior                         |
+| `PickupItem.cs`             | Handles artifact pickup                           |
+| `Inventory.cs`              | Manages collected items                           |
+| `InventoryUi.cs`            | Displays inventory information                    |
+| `ItemPocket.cs`             | Handles artifact insertion                        |
+| `HoldObjectRightHand.cs`    | Displays held objects and activates dolls         |
+| `HandMovement.cs`           | Controls hand movement                            |
+| `Lighter.cs`                | Controls lighter on/off functionality             |
+| `GameManager.cs`            | Tracks progress and win conditions                |
+| `Enemy/DollChaser.cs`       | Doll AI, chasing, freezing, and player detection  |
+| `Enemy/EnemySpawner.cs`     | Spawns dolls based on game progression            |
+| `UI/EndCreditController.cs` | Controls end credits                              |
+| `ENV/FlickeringLight.cs`    | Creates flickering-light effects                  |
+| `FootStepAudio.cs`          | Controls player footsteps                         |
+| `Soundrack.cs`              | Manages background soundtrack                     |
+
+---
+
+## 🚀 Installation and Setup
+
+There are two ways to play or run the project.
+
+### Option A: Play the Built Game (No Unity Required)
+
+1. Download the game: 
+   [**Download Silent Soul v1.0**](https://github.com/ylyheng/Game-MidProject/releases/download/v1.0/Game.zip)
+
+2. Extract the downloaded ZIP file.
+3. Open the extracted folder.
+4. Run `Game-MidProject.exe`.
+5. Make sure all required files and folders remain together.
+
+> **Important:** Do not run the executable directly from inside the ZIP file.
+
+### Option B: Run the Project Using Unity Editor
+
+**Requirements:**
+
+- Unity Hub.
+- Unity Editor `6000.3.8f1`.
+- Git.
+
+**Step 1: Clone the repository**
+
+Open a terminal and execute:
+
+```bash
 git clone https://github.com/ylyheng/Game-MidProject.git
-In Unity Hub choose Add Add project from disk and select the cloned folder.
-Open Assets/Scenes/Main.unity.
-Press Play.
-8. Project Structure
+```
+
+**Step 2: Open the project in Unity Hub**
+
+1. Launch Unity Hub.
+2. Select **Add → Add project from disk**.
+3. Choose the cloned `Game-MidProject` folder.
+4. Open the project using Unity `6000.3.8f1`.
+
+**Step 3: Open the Main Scene**
+
+Navigate to:
+
+```text
+Assets/Scenes/Main.unity
+```
+
+**Step 4: Play the Game**
+
+1. Open `Main.unity`.
+2. Press the **Play** button in Unity.
+3. Use the controls described above to start playing.
+
+---
+
+## 📁 Project Structure
+
+```text
 Game-MidProject/
-|-- Assets/
-|   |-- Scenes/        (Main.unity)
-|   |-- Scripts/       (Player, Enemy, UI, ENV)
-|   `-- Resources/     (artifact, Cobwebs, lamp, Locker_HQ, Skeleton, Swords, tree)
-|-- Packages/
-|-- ProjectSettings/
-`-- README.md
-9. Team Members & Contributions
-Name	Contribution
-San Chanthai	Player controls and physics
-Y Lyheng	Map / level design
-Sopheap Souchhy	Map / level design
-THAL Sotarith	Game logic
+│
+├── Assets/
+│   ├── Scenes/
+│   │   └── Main.unity
+│   │
+│   ├── Scripts/
+│   │   ├── PlayerController.cs
+│   │   ├── CameraFollow.cs
+│   │   ├── PlayerInteractor.cs
+│   │   ├── Interactable.cs
+│   │   ├── PickupItem.cs
+│   │   ├── Inventory.cs
+│   │   ├── InventoryUi.cs
+│   │   ├── ItemPocket.cs
+│   │   ├── Lighter.cs
+│   │   ├── GameManager.cs
+│   │   ├── Enemy/
+│   │   ├── UI/
+│   │   └── ENV/
+│   │
+│   └── Resources/
+│       ├── Artifact
+│       ├── Cobwebs
+│       ├── Lamp
+│       ├── Locker_HQ
+│       ├── Skeleton
+│       ├── Swords
+│       └── Tree
+│
+├── Packages/
+├── ProjectSettings/
+└── README.md
+```
 
-Git history reflects each member's commits.
+---
 
-10. Assets, Tutorials & AI Credits
+## 👥 Team Members and Contributions
 
-Assets
+**Group 3**
 
-Models and sounds from free resources (see the Assets/Resources folders).
-TextMesh Pro (Unity built-in).
+| No. | Name            | Contribution                |
+| --- | --------------- | --------------------------- |
+| 1   | San Chanthai    | Player controls and physics |
+| 2   | Y Lyheng        | Map and level design        |
+| 3   | Sopheap Souchhy | Map and level design        |
+| 4   | THAL Sotarith   | Game logic                  |
 
-AI assistance
+**Team Collaboration:** Git history reflects the contributions and commits made by individual team members.
 
-AI was used to help write this README.
-11. License
+---
 
-For educational purposes only.
+## 🎨 Assets and Credits
+
+### Assets
+
+- 3D models and sound effects were obtained from free resources.
+- Additional game assets are included in the `Assets/Resources` folder.
+- TextMesh Pro is used for in-game text and UI rendering.
+
+### AI Assistance
+
+- AI tools were used to assist in writing and organizing this README documentation.
+
+---
+
+## 📄 License
+
+This project is developed for **educational purposes only** as part of the Fundamentals of Game Development course at the Cambodia Academy of Digital Technology (CADT).
+
+---
+
+\<p align="center">   \<b>Silent Soul\</b>\<br>   Can you survive when the dolls are watching?   \<br>\<br>   \<i>Group 3 – Fundamentals of Game Development\</i> \</p>
