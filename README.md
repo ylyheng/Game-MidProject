@@ -343,7 +343,7 @@ Game-MidProject/
 
 ### AI Assistance
 
-- AI tools were used to assist in writing and organizing this README documentation.
+- AI tools were used to assist in writing and organizing this README documentation and catch bug during development.
 
 ---
 
