@@ -54,7 +54,7 @@ The main objective is to discover three hidden artifacts and return each one to 
 
 However, collecting an artifact awakens haunted dolls that begin hunting the player. These dolls follow a unique **Weeping Angel-style mechanic**: they freeze when the player looks directly at them but move and chase the player whenever they are not being watched.
 
-Players must carefully explore the environment, avoid the dolls, collect all three artifacts, and survive to complete the game.
+Players must carefully explore the environment, avoid the skeleton, collect all three artifacts, and survive to complete the game.
 
 ---
 
@@ -64,7 +64,7 @@ To complete the game, players must:
 
 1. Explore the dark environment using a lighter.
 2. Find and collect all three hidden artifacts.
-3. Avoid the haunted dolls while carrying artifacts.
+3. Avoid the haunted skeleton while carrying artifacts.
 4. Return each artifact to its matching pocket (altar).
 5. Insert all three artifacts to unlock the ending.
 
@@ -82,18 +82,18 @@ To complete the game, players must:
 
 ### 💀 Losing
 
-- A doll catches the player when it gets within approximately 1.2 meters.
+- A skeleton catches the player when it gets within approximately 1.2 meters.
 - The game automatically reloads the scene approximately 1.5 seconds after the player is caught.
 
 ### 👹 Doll Behavior
 
-- Dolls freeze when the player is looking directly at them.
-- Dolls chase the player when they are not being watched.
-- Collecting artifacts activates the dolls.
-- Additional dolls spawn as the player progresses:
-  - Level 1: 0 dolls.
-  - Level 2: 1 doll.
-  - Level 3: 3 dolls.
+- skeleton freeze when the player is looking directly at them.
+- skeleton chase the player when they are not being watched.
+- Collecting artifacts activates the skeleton.
+- Additional skeleton spawn as the player progresses:
+  - Level 1: 0 skeleton.
+  - Level 2: 1 skeleton.
+  - Level 3: 3 skeleton.
 
 ### 🗝️ Artifact and Pocket Rules
 
@@ -149,8 +149,8 @@ To complete the game, players must:
 ### 👹 Enemy AI
 
 - Weeping Angel-style doll behavior.
-- Dolls freeze when observed.
-- Dolls chase the player when not observed.
+- skeleton freeze when observed.
+- skeleton chase the player when not observed.
 - NavMeshAgent-based pathfinding.
 - Increasing enemy difficulty through multiple spawning stages.
 
@@ -164,7 +164,7 @@ To complete the game, players must:
 ### 🔊 Audio and Visual Effects
 
 - Footstep sound effects.
-- Doll movement sounds.
+- skele movement sounds.
 - Player death sound.
 - Artifact insertion sound.
 - Background soundtrack.
